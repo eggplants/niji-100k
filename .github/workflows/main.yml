@@ -32,7 +32,7 @@ jobs:
     - name: Diff
       run: |
         diff res.csv prev_res.csv && { echo No changed && exit 1;} || echo Some changed
-        rm res.csv
+        rm prev_res.csv
     - name: Commit
       run: |
         git add .
