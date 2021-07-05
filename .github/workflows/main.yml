@@ -1,0 +1,40 @@
+name: Update
+
+on:
+  schedule:
+  - cron: 0 15 * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        pip install pandas html5lib
+    - name: Configure git
+      run: |
+        git config user.name "eggplants"
+        git config user.email "${{ secrets.MAIL }}"
+        git remote set-url origin https://eggplants:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+        git checkout master
+    - name: Run gen.py
+      run: |
+        touch res.csv
+        mv res.csv prev_res.csv
+        python gen.py
+    - name: Diff
+      run: |
+        diff res.csv prev_res.csv && { echo No changed && exit 1;} || echo Some changed
+        rm res.csv
+    - name: Commit
+      run: |
+        git add .
+        git commit -m "update: $(date +%y%m%d)"
+        git push origin master
