@@ -19,5 +19,4 @@ df_status = pd.read_csv('https://raw.githubusercontent.com/'
                         'master/result.csv'
                        ).rename(columns={'name': 'チャンネル'})
 
-df.merge(df_status)
-df.to_csv('res.csv')
+df.merge(df_status).to_csv('res.csv')
