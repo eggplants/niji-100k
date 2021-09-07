@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[1]:
 
 
-get_ipython().system('pip install -r requirements.txt -q')
+# get_ipython().system('pip install -r requirements.txt -q')
 import pandas as pd
 from urllib.parse import quote
 pd.set_option('display.max_rows', None)
 
 
-# In[3]:
+# In[2]:
 
 
 df = pd.read_html('https://wikiwiki.jp/nijisanji/'
@@ -18,7 +18,7 @@ df = pd.read_html('https://wikiwiki.jp/nijisanji/'
 df.columns = [_[1] for _ in df.columns.to_flat_index()]
 
 
-# In[4]:
+# In[3]:
 
 
 df = df[df['10万人']!='-']
@@ -26,7 +26,7 @@ df = df.sort_values('10万人')
 df = df.loc[:,('チャンネル','10万人')]
 
 
-# In[5]:
+# In[4]:
 
 
 df_status = pd.read_csv(
@@ -36,7 +36,7 @@ df_status = pd.read_csv(
 ).rename(columns={'name': 'チャンネル'})
 
 
-# In[6]:
+# In[5]:
 
 
 df = df.merge(df_status)
@@ -46,7 +46,7 @@ df.index += 1
 df
 
 
-# In[7]:
+# In[6]:
 
 
 df.to_csv('res.csv')
