@@ -4,7 +4,6 @@
 # In[1]:
 
 
-# get_ipython().system('pip install -r requirements.txt -q')
 import pandas as pd
 from urllib.parse import quote
 pd.set_option('display.max_rows', None)
@@ -50,4 +49,8 @@ df
 
 
 df.to_csv('res.csv')
-
+print(df.to_json(orient="records", indent=2, index=True)
+      .replace("\\/", "-")
+      .encode('latin-1')
+      .decode('unicode_escape'),
+      file=open("res.json","w"))
